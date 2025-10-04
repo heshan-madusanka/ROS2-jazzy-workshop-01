@@ -67,6 +67,7 @@ After a successful build ,source your workspace
 Task 02: Creating a Simple URDF and Visualizing in RViz
 =======================================================
 In this task, you'll create a basic URDF file to model a simple robot and learn how to visualize it using RViz. This will help you verify your model's structure before moving to more complex simulations.
+
 Create Your URDF File
 ---------------------
 First, inside the urdf folder you created earlier, create a new file named robot_model.urdf. This file will contain the complete description of your robot.
