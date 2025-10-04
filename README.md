@@ -112,6 +112,7 @@ Build and Launch Your Package
 Navigate to the root of your workspace (workshop_XX_ws) and build your package.After a successful build ,source your workspace
 
     colcon build
-,
+.
+    
     source install/setup.bash
     
