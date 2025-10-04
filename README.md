@@ -10,3 +10,6 @@ Objectives Upon completion of this lab sheet, you will be able to:
 - Understand the properties of different joint types and links.
 - Familiarize yourself with the RViz visualization tool for model validation.
 - Familiarize yourself with the Gazebo simulator and the gz_ros_bridge for communication with ROS 2.
+
+Task 01: Setting up Your ROS 2 Workspace
+========================================
