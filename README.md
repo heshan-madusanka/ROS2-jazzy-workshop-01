@@ -133,4 +133,36 @@ Once RViz is open, you will need to manually configure it to display your robot 
 - Click on it and select world frame.
 - Click the "Add" button again.In the rviz_default_plugins section, select TF. Click "OK". This will show the coordinate frames of your robot, which is useful for debugging.
 ![after setup the rviz](images/rviz_setup.gif)
-    
+
+- In RViz, go to File > Save Config As... and save the file as rviz_config.rviz inside your config folder.
+
+Update the Launch File with RViz Configuration
+----------------------------------------------
+To avoid manually configuring RViz every time you launch, you will now modify the **display.launch.xml** file. The updated launch file will load the **rviz_config.rviz** file automatically. 
+**display.launch.xml;**
+
+    <launch>
+        <let name="urdf_path" 
+            value="$(find-pkg-share robot_description)/urdf/robot_model.urdf" />
+        <let name="rviz_config_path" 
+            value="$(find-pkg-share robot_description)/config/rviz_config.rviz" />
+        
+        <node pkg="robot_state_publisher" exec="robot_state_publisher">
+            <param name="robot_description"
+                value="$(command 'cat $(var urdf_path)')" />
+        </node>
+        
+        <node pkg="rviz2" exec="rviz2" output="screen"
+            args="-d $(var rviz_config_path)" />
+    </launch>
+
+Rebuild, Source, and Launch
+---------------------------
+Finally, build your package again to apply the changes to the launch file. Then, source your workspace and launch the updated file. You will see RViz open with the correct configuration loaded automatically.
+
+Task 03: Incorporating Xacro and Macros for Modular Robot Design
+================================================================
+This task will introduce you to Xacro (XML Macros) and how it can significantly simplify the creation and maintenance of complex robot models. We'll explore the benefits of using properties and reusable macros to build a robot description in a more organized and efficient manner.
+
+Before we dive into the implementation, let's take a look at the robot design we aim to describe in this task.
+![Final design overview](images/gazebo_environment.png)
