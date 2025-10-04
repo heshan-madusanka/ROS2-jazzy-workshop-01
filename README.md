@@ -265,5 +265,68 @@ Rebuild, Source, and Launch
 You must build your package again to apply the changes to the launch file. From now on, it's recommended to build with the **--symlink-install** flag. This creates a symbolic link between your source files and the install directory, meaning you won't have to rebuild the package every time you make a change to a Python file, a launch file, or an URDF. This is a huge time saver when you're repeatedly modeling and visualizing a robot.
 
     colcon build --symlink-install
+Creating the Next Arm Link and a Revolute Joint
+-----------------------------------------------
+Now that you have your Xacro and Macro files set up, let's add the next link to our robot model. This next link will be a revolute joint, which allows for rotation around a single axis. We will also add a new set of properties to define the dimensions and other parameters of this arm.
 
+First, you will define the properties for the new arm link.
+- In your robot_properties.xacro file, define a new set of properties for the arm1_link. Use a length of 0.30, a width of 0.05, and a height of 0.05. Set the mass to 0.6 and the color to 0.4 0.9 0.2 1. You'll also need to define the visual offset (arm1_visual_xyz) and rotation (arm1_visual_rpy).
 
+Next, you will define a new link and a revolute joint that connects it to your base link.
+- Create the box shape: Using your box_macro, create a new link with the name arm1_link. Use the properties you just defined for its size, mass, color, and visual position.
+- Create the continuous joint: Define a new joint with the name base_arm1_joint and the type continuous. This joint will connect the base_link (parent) and arm1_link (child).
+
+----------------
+    <xacro:property name="arm1_length" value="0.30"/>
+    <xacro:property name="arm1_width" value="0.05"/> 
+    <xacro:property name="arm1_height" value="0.05"/>
+    <xacro:property name="arm1_mass" value="0.6"/>
+    <xacro:property name="arm1_color" value="0.4 0.9 0.2 1"/>
+    
+    <xacro:property name="arm1_visual_xyz" value="${(float(arm1_length)/2.0)} 0 0"/>
+    <xacro:property name="arm1_visual_rpy" value="0 0 0"/>
+-------------------
+    <xacro:box_link
+        link_name="arm1_link"
+        size_x="${arm1_length}"
+        size_y="${arm1_width}"
+        size_z="${arm1_height}"
+        mass="${arm1_mass}"
+        color_rgba="${arm1_color}"
+        xyz="${arm1_visual_xyz}"
+        rpy="${arm1_visual_rpy}" />
+--------------------
+    <joint name="base_to_arm1" type="continuous">
+        <origin xyz="${float(base_length) - float(arm1_height)} ${float(arm1_height)} 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child  link="arm1_link"/>
+        <axis  xyz="0 1 0"/>
+    </joint>
+---------------------
+When you launch your updated display.launch.xml file, you will encounter an error in RViz that says **"No transform from [arm1_link] to [world]"**. This happens because your robot's joints are not being published to a topic, so RViz doesn't know where to place your arm1_link relative to the world frame.
+
+To solve this, you need to add a node to your launch file that publishes the joint states. The joint_state_publisher_gui package is perfect for this. It not only publishes the joint states but also provides a graphical interface that allows you to manually manipulate the joints. This is a great tool for confirming that your joints are properly defined and placed correctly.
+
+Add the following line to your display.launch.xml file:
+
+    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" />
+After adding this line, You will see a new window with sliders that control your robot's joints. Use the slider to move the arm1_link and verify that the revolute joint is working as expected. This process helps you ensure that your joint's axis and origin are correctly configured.
+
+Exercise 01 : Creating a Differential Drive Mobile Robot
+========================================================
+Your task is to create a new ROS 2 package and model a differential drive mobile robot from scratch. This is a common and fundamental robot configuration in robotics.
+
+Instructions:
+
+1. Create a New Package: Create a new ROS 2 package named mobilebot_description.
+2. Define Xacro Properties: Create a new Xacro file to define the properties for your mobile robot. Make sure you include the following parameters: wheel_radius: Set this to 0.05 meters. wheel_separation: Set this to 0.3 meters. You have the freedom to choose the shape, dimensions, and mass for the main chassis and wheels of your mobile robot.
+3. Use Xacro Macros: Create a reusable Xacro macro for the wheel shape. This will save you from having to write the code for the left and right wheels separately.
+4. Assemble the Robot: Create a final Xacro file that imports your properties and wheel macro. Use the macros to define the main chassis and connect the two wheels using continuous joints. Pay close attention to the origin and axis of the joints to ensure the wheels are placed correctly and can rotate. Visualize your robot in RViz to ensure all links and joints are correctly configured.
+
+This exercise will reinforce your understanding of using Xacro and macros to build a well-structured and easily modifiable robot model.
+
+Useful links:
+-------------
+- [https://wiki.ros.org/urdf](https://wiki.ros.org/urdf/XML/model)
+- [https://wiki.ros.org/urdf/XML/link](https://wiki.ros.org/urdf/XML/link)
+- [https://wiki.ros.org/urdf/XML/joint](https://wiki.ros.org/urdf/XML/joint)
