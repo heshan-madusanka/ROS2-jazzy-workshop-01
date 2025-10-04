@@ -165,4 +165,4 @@ Task 03: Incorporating Xacro and Macros for Modular Robot Design
 This task will introduce you to Xacro (XML Macros) and how it can significantly simplify the creation and maintenance of complex robot models. We'll explore the benefits of using properties and reusable macros to build a robot description in a more organized and efficient manner.
 
 Before we dive into the implementation, let's take a look at the robot design we aim to describe in this task.
-![Final design overview](images/gazebo_environment.png)
+![Final design overview](images/2link_robotArm.png)
