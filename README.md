@@ -43,4 +43,15 @@ To maintain a clean and organized package structure, please create three new fol
 
 ![Package Src overview](images/src_overview.png)
 
+Edit the CMakeLists.txt File
+----------------------------
+You need to modify your package's CMakeLists.txt file to ensure that the newly created folders and their contents are installed correctly. This step is crucial for making your files accessible to ROS 2.
+After the line **find_package(ament_cmake REQUIRED)**, add the following:
+
+    install(
+        DIRECTORY urdf launch config
+        DESTINATION share/robot_description
+        )
+
+![Changed cmake.txt file](images/cmake_edit.png)
 
