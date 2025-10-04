@@ -87,3 +87,4 @@ Next, you must modify your bringup.launch.xml file to include the ros_gz_bridge 
 Final Build and Launch
 ----------------------
 Finally, build your package one last time to apply the changes to the launch file. Source your workspace and launch the bringup.launch.xml file. This time, RViz will correctly display the robot's state as published by Gazebo, allowing you to see its behavior in the simulation.
+![end simulation](images/simulation.gif)
