@@ -324,6 +324,7 @@ Instructions:
 4. Assemble the Robot: Create a final Xacro file that imports your properties and wheel macro. Use the macros to define the main chassis and connect the two wheels using continuous joints. Pay close attention to the origin and axis of the joints to ensure the wheels are placed correctly and can rotate. Visualize your robot in RViz to ensure all links and joints are correctly configured.
 
 This exercise will reinforce your understanding of using Xacro and macros to build a well-structured and easily modifiable robot model.
+![after setup the rviz](images/mobile_bot.gif)
 
 Useful links:
 -------------
