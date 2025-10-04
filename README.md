@@ -41,6 +41,7 @@ Create Necessary Folders
 ------------------------
 To maintain a clean and organized package structure, please create three new folders inside your workshop_XX_robot_description package directory: **launch**, **urdf**, and **config**. These folders will be used to store your launch files, URDF/Xacro files, and configuration files, respectively.
 
+[![Ceres Robot Nav](images/src_overview.png)]
 .. image:: /images/src_overview.png
    :alt: images/src_overview.png
    :width: 600px
