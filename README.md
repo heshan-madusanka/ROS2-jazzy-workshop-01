@@ -49,9 +49,20 @@ You need to modify your package's CMakeLists.txt file to ensure that the newly c
 After the line **find_package(ament_cmake REQUIRED)**, add the following:
 
     install(
-        DIRECTORY urdf launch config
-        DESTINATION share/robot_description
-        )
+    DIRECTORY urdf launch config
+    DESTINATION share/robot_description
+    )
 
 ![Changed cmake.txt file](images/cmake_edit.png)
 
+Build Your Package
+------------------
+Finally, build your new package to compile any changes and make it available in your ROS 2 environment. You must execute this command from the **root of your workspace (workshop_XX_ws)**.
+    
+    colcon build
+After a successful build ,source your workspace
+
+    source install/setup.bash
+
+Task 02: Creating a Simple URDF and Visualizing in RViz
+=======================================================
