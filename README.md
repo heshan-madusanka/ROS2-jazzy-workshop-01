@@ -134,5 +134,5 @@ Once RViz is open, you will need to manually configure it to display your robot 
 - Under the "Global Options" section at the top of the "Displays" panel, find the Fixed Frame dropdown menu.
 - Click on it and select world frame.
 - Click the "Add" button again.In the rviz_default_plugins section, select TF. Click "OK". This will show the coordinate frames of your robot, which is useful for debugging.
-![after setup the rviz](images/setup_rviz_02.png)
+![after setup the rviz](images/rviz_setup.gif)
     
