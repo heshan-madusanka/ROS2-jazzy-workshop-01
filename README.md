@@ -34,7 +34,8 @@ Add Your Workspace to VS Code
 -----------------------------
 For easier editing and project navigation, it's recommended to add your workspace's src folder to your VS Code environment.
 - Open VS Code.
-- Go to File > Add Folder to Workspace... and select your workshop_XX_ws/src directory.
+- Go to File > Add Folder to Workspace...
+- select your workshop_XX_ws/src directory.
 
 Create Necessary Folders
 ------------------------
