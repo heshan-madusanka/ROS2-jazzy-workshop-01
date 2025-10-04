@@ -88,3 +88,18 @@ Final Build and Launch
 ----------------------
 Finally, build your package one last time to apply the changes to the launch file. Source your workspace and launch the bringup.launch.xml file. This time, RViz will correctly display the robot's state as published by Gazebo, allowing you to see its behavior in the simulation.
 ![end simulation](images/simulation.gif)
+
+Exercise 02 : Spawning and Controlling a Differential Drive Robot
+=================================================================
+Your next exercise is to spawn the differential drive mobile robot you created earlier into a Gazebo environment and control it using your keyboard. This will involve adding a Gazebo differential drive plugin to your robot model and using ros_gz_bridge to send commands from ROS 2 to Gazebo.
+
+1. Add the Differential Drive Plugin
+2. Set Up the ROS-Gazebo Bridge
+    - In this file, you'll need to set up a bridge to convert a Twist message from a ROS 2 topic (e.g., /cmd_vel) to a Gazebo topic that the differential drive plugin listens to.
+3. Update the Launch File
+4. Control the Robot from the Keyboard
+    Use the following command to start the keyboard control node, replacing /cmd_vel if your topic name is different:
+
+       ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/cmd_vel
+![Exercise simulation](images/final_task.gif)  
+In your mobilebot.urdf.xacro file, add the Gazebo Odometry plugin to your robot model. Then, configure the ros_gz_bridge.yaml file to bridge the Gazebo odometry topic to a ROS 2 topic. Finally, in RViz, add the Odometry display and subscribe to that new ROS 2 topic to visualize the robot's movement.
