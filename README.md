@@ -112,7 +112,26 @@ Build and Launch Your Package
 Navigate to the root of your workspace (workshop_XX_ws) and build your package.After a successful build ,source your workspace
 
     colcon build
-.
-    
     source install/setup.bash
+launch the display.launch.xml file to start RViz and view your robot.
+
+    ros2 launch robot_description display.launch.xml
+![before setup the rviz](images/rviz_first_time.png)
+
+Configure and Save RViz Settings
+--------------------------------
+Once RViz is open, you will need to manually configure it to display your robot model. This involves adding the RobotModel display type and setting its topic. After you have the desired view, save the configuration.
+- Click the "Add" button in the bottom-left corner of the RViz window.
+- A new window titled "Create new display" will pop up.
+- In the "By display type" tab, expand rviz_default_plugins and select RobotModel.
+- Click "OK".
+![setup the rviz](images/setup_rviz_01.png)
+
+- In the "Displays" panel on the left, you will now see RobotModel as an option.
+- Expand the RobotModel entry.
+- Click on Description Topic and from the dropdown menu, select the /robot_description topic.
+- Under the "Global Options" section at the top of the "Displays" panel, find the Fixed Frame dropdown menu.
+- Click on it and select world frame.
+- Click the "Add" button again.In the rviz_default_plugins section, select TF. Click "OK". This will show the coordinate frames of your robot, which is useful for debugging.
+![after setup the rviz](images/setup_rviz_02.png)
     
