@@ -18,13 +18,11 @@ This task will guide you through the process of setting up a new ROS 2 workspace
 Create Your Workspace Directory
 -------------------------------
 First, you'll create a new workspace directory for this workshop. Please replace **XX** with your batch number to personalize your workspace name. For example, if you are from the **22nd batch**, your workspace name will be **workshop_22_ws**.
-.. code-block:: bash
 
-    # run the CLI
     mkdir -p workshop_xx_ws/src
     
 Next, navigate into your newly created workspace directory.
-.. code-block:: bash
 
-    # run the CLI
     cd workshop_xx_ws/src
+
+
