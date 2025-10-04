@@ -123,7 +123,7 @@ Configure and Save RViz Settings
 --------------------------------
 Once RViz is open, you will need to manually configure it to display your robot model. This involves adding the RobotModel display type and setting its topic. After you have the desired view, save the configuration.
 - Click the "Add" button in the bottom-left corner of the RViz window.
-- A new window titled "Create new display" will pop up.
+- A new window will pop up.
 - In the "By display type" tab, expand rviz_default_plugins and select RobotModel.
 - Click "OK".
 ![setup the rviz](images/setup_rviz_01.png)
