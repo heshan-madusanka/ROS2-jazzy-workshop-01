@@ -66,3 +66,52 @@ After a successful build ,source your workspace
 
 Task 02: Creating a Simple URDF and Visualizing in RViz
 =======================================================
+In this task, you'll create a basic URDF file to model a simple robot and learn how to visualize it using RViz. This will help you verify your model's structure before moving to more complex simulations.
+Create Your URDF File
+---------------------
+First, inside the urdf folder you created earlier, create a new file named robot_model.urdf. This file will contain the complete description of your robot.
+**robot_model.urdf;**
+    
+    <?xml version="1.0" ?>
+    <robot name="robot_model">
+        <link name="world"/>
+        <link name="base_link">
+            <visual>
+                <geometry>
+                    <box size="0.3 0.2 0.05"/>
+                </geometry>
+            </visual>
+        </link>
+        
+        <joint name="world_to_base" type="fixed">
+            <parent link="world"/>
+            <child link="base_link"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+        
+    </robot>  
+
+Create the Display Launch File
+------------------------------
+Next, create a new launch file named **display.launch.xml** inside your launch folder. This launch file will be used to launch a ROS 2 node that reads your URDF file and publishes the robot's state, which RViz will then use to visualize the model. 
+**display.launch.xml;**
+
+    <launch>
+        <let name="urdf_path" 
+            value="$(find-pkg-share robot_description)/urdf/robot_model.urdf" />
+        
+        <node pkg="robot_state_publisher" exec="robot_state_publisher">
+            <param name="robot_description"
+                value="$(command 'cat $(var urdf_path)')" />
+        </node>
+        <node pkg="rviz2" exec="rviz2" output="screen" />
+    </launch>
+
+Build and Launch Your Package
+-----------------------------
+Navigate to the root of your workspace (workshop_XX_ws) and build your package.After a successful build ,source your workspace
+
+    colcon build
+,
+    source install/setup.bash
+    
