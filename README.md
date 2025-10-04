@@ -25,4 +25,18 @@ Next, navigate into your newly created workspace directory.
 
     cd workshop_xx_ws/src
 
+Create the Robot Description Package
+------------------------------------
+Next, create a new ROS 2 package specifically for your robot's description files. We'll name this package robot_description. The --build-type ament_cmake flag specifies the build system we'll be using.
+
+    ros2 pkg create --build-type ament_cmake robot_description
+Add Your Workspace to VS Code
+-----------------------------
+For easier editing and project navigation, it's recommended to add your workspace's src folder to your VS Code environment.
+- Open VS Code.
+- Go to File > Add Folder to Workspace... and select your workshop_XX_ws/src directory.
+
+Create Necessary Folders
+------------------------
+To maintain a clean and organized package structure, please create three new folders inside your workshop_XX_robot_description package directory: **launch**, **urdf**, and **config**. These folders will be used to store your launch files, URDF/Xacro files, and configuration files, respectively.
 
