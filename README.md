@@ -166,3 +166,104 @@ This task will introduce you to Xacro (XML Macros) and how it can significantly 
 
 Before we dive into the implementation, let's take a look at the robot design we aim to describe in this task.
 ![Final design overview](images/2link_robotArm.png)
+
+Why Xacro and Macros?
+---------------------
+- **Reusability:** Instead of defining the geometry, visual, and collision properties of a box multiple times, we can create a single macro for a box shape and instantiate it with different names and parameters as needed. This significantly reduces redundancy and makes the URDF more readable and maintainable.
+- **Parameterization:** Xacro allows us to define properties (variables) for dimensions, colors, or any other parameters of our robot. If we need to change the size of a particular link, we only need to modify the property's value in one place, and it will be updated throughout the model.
+- **Organization:** By separating properties and reusable components (like our box macro) into different files, we can create a more modular and manageable robot description.
+
+Create Property File:
+---------------------
+Inside your urdf folder, create a new file named box_macro.xacro. This file will contain the Xacro macro definition for creating a box-shaped link with specified dimensions.
+
+    <?xml version="1.0"?>
+    <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="box_link" params="link_name size_x size_y size_z mass color_rgba xyz rpy">
+        <link name="${link_name}">
+            <!--visual properties-->
+            <visual>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <geometry>
+                    <box size="${size_x} ${size_y} ${size_z}"/>
+                </geometry>
+                <material name="${link_name}_mat">
+                    <color rgba="${color_rgba}"/>
+                </material>
+            </visual>
+            <!--collision properties-->
+            <collision>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <geometry>
+                  <box size="${size_x} ${size_y} ${size_z}"/>
+                </geometry>
+            </collision>
+            <!--Inertia properties-->
+            <inertial>
+                <origin xyz="${xyz}" rpy="${rpy}"/>
+                <mass value="${mass}" />
+                <inertia
+                    ixx="${(1.0/12.0) * float(mass) * (float(size_y)**2 + float(size_z)**2)}"
+                      ixy="0.0"
+                          ixz="0.0"
+                              iyy="${(1.0/12.0) * float(mass) * (float(size_x)**2 + float(size_z)**2)}"
+                                  iyz="0.0"
+                                      izz="${(1.0/12.0) * float(mass) * (float(size_x)**2 + float(size_y)**2)}"/>
+            </inertial>
+        </link>
+    </xacro:macro>
+    </robot>
+
+Create the Main Robot URDF File:
+--------------------------------
+In the same urdf folder, create your main robot description file named robot_model.urdf.xacro. This file will import the properties and the box macro and use them to define the structure of our three-link robot.
+
+    <?xml version="1.0"?>
+    <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_model">
+        <!-- include macros -->
+        <xacro:include filename="$(find robot_description)/urdf/box_macro.xacro" />
+        <!-- Define xacro properties -->
+        <xacro:property name="base_length" value="0.50"/>
+        <xacro:property name="base_width" value="0.05"/>
+        <xacro:property name="base_height" value="0.05"/> 
+        <xacro:property name="base_mass" value="1.0"/>
+        <xacro:property name="base_color" value="0.9 0.4 0.2 1"/>
+    
+        <xacro:property name="base_visual_xyz" value="${(float(base_length)/2.0)} 0 0"/>
+        <xacro:property name="base_visual_rpy" value="0 0 0"/>
+    
+        <link name="world"/>
+    
+        <xacro:box_link
+            link_name="base_link"
+            size_x="${base_length}"
+            size_y="${base_width}"
+            size_z="${base_height}"
+            mass="${base_mass}"
+            color_rgba="${base_color}"
+            xyz="${base_visual_xyz}"
+            rpy="${base_visual_rpy}" />
+    
+        <joint name="world_to_base" type="fixed">
+            <origin xyz="0 0 0" rpy="0 -1.57 0"/>
+            <parent link="world"/>
+            <child  link="base_link"/>    
+        </joint>
+    
+    </robot>
+Modify the Launch File:
+-----------------------
+Now, you need to update your **display.launch.xml** file to process the .urdf.xacro file instead of a regular .urdf file. Open your display.launch.xml and find the line that defines the urdf_path argument and the subsequent tag where the URDF content is loaded. You need to change the command used to process the URDF. Specifically, replace 'cat' with 'xacro' in the following part:
+
+    value="$(command 'cat $(var urdf_path)')"
+It should look like this after the change:
+
+    value="$(command 'xacro $(var urdf_path)')"
+
+Rebuild, Source, and Launch
+---------------------------
+You must build your package again to apply the changes to the launch file. From now on, it's recommended to build with the **--symlink-install** flag. This creates a symbolic link between your source files and the install directory, meaning you won't have to rebuild the package every time you make a change to a Python file, a launch file, or an URDF. This is a huge time saver when you're repeatedly modeling and visualizing a robot.
+
+    colcon build --symlink-install
+
+
