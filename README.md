@@ -12,4 +12,19 @@ Objectives Upon completion of this lab sheet, you will be able to:
 - Familiarize yourself with the Gazebo simulator and the gz_ros_bridge for communication with ROS 2.
 
 Task 01: Setting up Your ROS 2 Workspace
-----------------------------------------
+========================================
+This task will guide you through the process of setting up a new ROS 2 workspace and a dedicated package for your robot's description files.
+
+Create Your Workspace Directory
+-------------------------------
+First, you'll create a new workspace directory for this workshop. Please replace **XX** with your batch number to personalize your workspace name. For example, if you are from the **22nd batch**, your workspace name will be **workshop_22_ws**.
+.. code-block:: bash
+
+    # run the CLI
+    mkdir -p workshop_xx_ws/src
+    
+Next, navigate into your newly created workspace directory.
+.. code-block:: bash
+
+    # run the CLI
+    cd workshop_xx_ws/src
