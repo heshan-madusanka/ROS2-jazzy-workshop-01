@@ -16,3 +16,6 @@ Install Gazebo Harmonic & ROS 2 Integration
 [https://gazebosim.org/docs/harmonic/install_ubuntu/](https://gazebosim.org/docs/harmonic/install_ubuntu/)
 
     sudo apt-get install ros-${ROS_DISTRO}-ros-gz
+-----------
+
+    sudo apt install ros-humble-gz-ros2-control
