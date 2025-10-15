@@ -1,4 +1,5 @@
 # Prerequisites and Installation Guide for ROS 2 Workshop
+Install colcon: colcon is an iteration on the ROS build tools catkin_make, catkin_make_isolated, catkin_tools and ament_tools.
 
     sudo apt install python3-colcon-common-extensions
 
