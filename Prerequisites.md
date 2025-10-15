@@ -1,5 +1,7 @@
 # Prerequisites and Installation Guide for ROS 2 Workshop
 
+    sudo apt install python3-colcon-common-extensions
+
 XACRO Support: For using the XACRO macro language to build clean, reusable URDF files.
 
     sudo apt install ros-${ROS_DISTRO}-xacro
