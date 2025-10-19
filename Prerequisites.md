@@ -1,5 +1,5 @@
 # Prerequisites and Installation Guide for ROS 2 Workshop
-Before participating in this workshop you should understand the core concepts of ROS 2 and have a working development environment. This workshop builds on foundational knowledge and practical skills; without them you will not be able to complete the exercises or follow the demonstrations. You are expected to review and complete the [official Beginner: CLI tools](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html) and Beginner: Client libraries tutorials in the ROS 2 documentation prior to this session.
+Before participating in this workshop you should understand the core concepts of ROS 2 and have a working development environment. This workshop builds on foundational knowledge and practical skills; without them you will not be able to complete the exercises or follow the demonstrations. You are expected to review and complete the [official Beginner: CLI tools](https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools.html) and [Beginner: Client libraries](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries.html) tutorials in the ROS 2 documentation prior to this session.
     
 Install colcon: colcon is an iteration on the ROS build tools catkin_make, catkin_make_isolated, catkin_tools and ament_tools.
 
