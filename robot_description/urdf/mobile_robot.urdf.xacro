@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/xacro" name="mobilebot" >
+
+  <!-- ======================== Constants ======================== -->
+
+  <!-- Main chassis dimensions -->
+  <xacro:property name="chassis_length" value="0.25"/>
+  <xacro:property name="chassis_width" value="0.20"/>
+  <xacro:property name="chassis_height" value="0.05"/>
+  <xacro:property name="chassis_mass" value="2.0"/>
+
+  <!-- Wheel properties -->
+  <xacro:property name="wheel_radius" value="0.05"/>
+  <xacro:property name="wheel_thickness" value="0.02"/>
+  <xacro:property name="wheel_mass" value="0.2"/>
+  <xacro:property name="wheel_separation" value="0.22"/>
+  <xacro:property name="wheel_offset_from_center" value="0.05"/>
+
+  <!-- Caster wheel properties -->
+  <xacro:property name="caster_radius" value="0.015"/>
+  <xacro:property name="caster_mass" value="0.05"/>
+
+  <!-- ======================== Xacro Macro for Wheel ======================== -->
+  <xacro:macro name="wheel_macro" params="name">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+        </geometry>
+        <material name="Black"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="${wheel_mass}"/>
+        <inertia ixx="${(1/12) * wheel_mass * (3 * wheel_radius*wheel_radius + wheel_thickness*wheel_thickness)}"
+                 iyy="${(1/12) * wheel_mass * (3 * wheel_radius*wheel_radius + wheel_thickness*wheel_thickness)}"
+                 izz="${(1/2) * wheel_mass * (wheel_radius*wheel_radius)}"
+                 ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- ======================== Base Link (Chassis) ======================== -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${chassis_mass}"/>
+      <inertia ixx="${(1/12) * chassis_mass * (chassis_width*chassis_width + chassis_height*chassis_height)}"
+               iyy="${(1/12) * chassis_mass * (chassis_length*chassis_length + chassis_height*chassis_height)}"
+               izz="${(1/12) * chassis_mass * (chassis_length*chassis_length + chassis_width*chassis_width)}"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- ======================== Left and Right Wheels ======================== -->
+  <xacro:wheel_macro name="left_wheel"/>
+  <xacro:wheel_macro name="right_wheel"/>
+
+  <!-- ======================== Joints ======================== -->
+  <joint name="base_to_left_wheel" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_link"/>
+    <origin xyz="-${wheel_offset_from_center} ${wheel_separation/2} 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="base_to_right_wheel" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_link"/>
+    <origin xyz="-${wheel_offset_from_center} -${wheel_separation/2} 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- ======================== Caster Wheel (Fixed) ======================== -->
+  <link name="caster_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_radius}"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${caster_mass}"/>
+      <inertia ixx="${(2/5) * caster_mass * caster_radius*caster_radius}"
+               iyy="${(2/5) * caster_mass * caster_radius*caster_radius}"
+               izz="${(2/5) * caster_mass * caster_radius*caster_radius}"
+               ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="base_to_caster" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_link"/>
+    <origin xyz="${chassis_length/2} 0 -${chassis_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ======================== Materials ======================== -->
+  <material name="Black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <gazebo>
+    <plugin
+        filename="ignition-gazebo-joint-state-publisher-system" 
+        name="ignition::gazebo::systems::JointStatePublisher ">
+        <topic>joint_states</topic>
+    </plugin>
+    <plugin
+        filename="gz-sim-diff-drive-system"
+        name="gz::sim::systems::DiffDrive">
+        <left_joint>base_to_left_wheel</left_joint>
+        <right_joint>base_to_right_wheel</right_joint>
+        <wheel_separation>0.22</wheel_separation>
+        <wheel_radius>0.05</wheel_radius>
+        <odom_publish_frequency>1</odom_publish_frequency>
+        <topic>cmd_vel</topic>
+    </plugin>
+  </gazebo>  
+
+</robot>

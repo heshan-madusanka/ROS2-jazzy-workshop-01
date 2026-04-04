@@ -1,0 +1,29 @@
+<launch>
+
+  <let name="urdf_path" 
+        value="$(find-pkg-share robot_description)/urdf/mobile_robot.urdf.xacro" />
+  <let name="rviz_config_path" 
+        value="$(find-pkg-share robot_description)/config/rviz_config.rviz" />
+  <let name="ros_gz_bridge_path" 
+        value="$(find-pkg-share robot_description)/config/ros_gz_bridge.yaml" />
+
+  <executable cmd="gz sim empty.sdf" output="screen"/>
+
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="screen">
+    <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
+  </node>
+
+  <node pkg="rviz2" exec="rviz2" output="screen" args="-d $(var rviz_config_path)"/>
+
+  <include file="$(find-pkg-share ros_gz_sim)/launch/gz_spawn_model.launch.py">
+    <arg name="world" value="empty"/>
+    <arg name="topic" value="/robot_description"/>
+    <arg name="entity_name" value="robot_arm"/>
+  </include>
+
+  <node pkg="ros_gz_bridge" exec="parameter_bridge" name="ros_gz_bridge" output="screen">
+    <param name="config_file" value="$(var ros_gz_bridge_path)"/>
+    <param name="qos_overrides./tf_static.publisher.durability" value="transient_local"/>
+  </node>
+
+</launch>
