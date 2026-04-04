@@ -18,7 +18,7 @@
   <include file="$(find-pkg-share ros_gz_sim)/launch/gz_spawn_model.launch.py">
     <arg name="world" value="empty"/>
     <arg name="topic" value="/robot_description"/>
-    <arg name="entity_name" value="robot_arm"/>
+    <arg name="entity_name" value="mobile_robot"/>
   </include>
 
   <node pkg="ros_gz_bridge" exec="parameter_bridge" name="ros_gz_bridge" output="screen">
