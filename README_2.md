@@ -12,6 +12,9 @@ First, create a new launch file inside your launch folder named **bringup.launch
         <let name="rviz_config_path" 
             value="$(find-pkg-share robot_description)/config/rviz_config.rviz" />
         <executable cmd="gz sim empty.sdf" output="screen"/>
+
+        <set_env name="GZ_SIM_RESOURCE_PATH" 
+             value="$(find-pkg-share robot_description)/../"/>
     
         <node pkg="robot_state_publisher" exec="robot_state_publisher" output="screen">
             <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
